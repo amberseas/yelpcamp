@@ -1,27 +1,44 @@
-<% layout('layouts/boilerplate') %> 
-    <h1 class="mb-5">All Campgrounds</h1>
-    <div>
-        <a href="/campgrounds/new" class="btn btn-secondary mb-3">Add New Campground</a>
-    </div>
-        <% for (let c of campgrounds) { %> 
-            <div class="card mb-3">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img class="img-fluid" alt="" src="<%= c.images[0].url %> ">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <%= c.title %> 
-                            </h5>
-                            <p class="card-text"><%= c.description %> </p>
-                            <p class="card-text">
-                                <small class="text-muted"><%= c.location %> </small>    
-                            </p>
-                            <a href="/campgrounds/<%= c._id %> " class="btn btn-success">View <%= c.title %> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <% } %> 
+<% layout('layouts/boilerplate') %>
 
+<div id="map" style="width: 100%; height: 500px"></div>
+
+<h1 class="mb-5">All Campgrounds</h1>
+<div>
+  <a href="/campgrounds/new" class="btn btn-secondary mb-3"
+    >Add New Campground</a
+  >
+</div>
+<% for (let c of campgrounds) { %>
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-4">
+      <% if(c.images.length) { %>
+      <img class="img-fluid" alt="" src="<%= c.images[0].url %> " />
+      <% } else { %>
+      <img
+        src="https://source.unsplash.com/random/300x300?camping,3"
+        alt="default-photo"
+      />
+      <% } %>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= c.title %></h5>
+        <p class="card-text"><%= c.description %></p>
+        <p class="card-text">
+          <small class="text-muted"><%= c.location %> </small>
+        </p>
+        <a href="/campgrounds/<%= c._id %> " class="btn btn-success"
+          >View <%= c.title %>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<script>
+  const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+  let campgrounds = '<%- JSON.stringify(campgrounds) %>';
+</script>
+<script src="/js/clusteredMap.js"></script>
